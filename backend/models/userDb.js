@@ -13,11 +13,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    saved_passwords:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Passwords"
-    }]
+    }
 })
 
 // Encrypt password using bcrypt

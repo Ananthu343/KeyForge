@@ -3,6 +3,8 @@ import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import Database from "./models/db.js"
+import cookieParser from "cookie-parser"
+import userRoutes from "./routes/userRoutes.js"
 
 dotenv.config()
 const clientPath = process.env.CLIENT_BASE_PATH;
@@ -19,7 +21,11 @@ db.connect();
   
 const app = express()
 app.use(cors(corsOptions));
+app.use(cookieParser());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
+app.use("/api/users", userRoutes);
 
 const PORT = process.env.BACKEND_PORT || 3000;
 

@@ -8,6 +8,10 @@ const PasswordSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    creatorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Users"
     }
 })
 
