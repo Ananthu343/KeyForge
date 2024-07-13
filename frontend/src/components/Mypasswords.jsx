@@ -45,9 +45,9 @@ const Mypasswords = () => {
     }
     
     return (
-        <>
-        <div className='w-full h-auto lg:w-[70%] bg-[#45454B] rounded-lg flex flex-col p-4 shadow-gray-500 shadow-md text-white'>
+        <div className='w-full h-auto lg:w-[70%] flex flex-col  text-white'>
         <h1 className='text-[20px] font-bold mb-5'>Welcome {userData?.name}!!</h1>
+        <div className='bg-[#45454B] rounded-lg p-4 shadow-gray-500 shadow-md'>
             <table className="w-full mx-auto">
                 <thead className='border-b'>
                     <tr>
@@ -95,7 +95,7 @@ const Mypasswords = () => {
             </table>
         </div>
         {modal && <EditModal setModal={setModal} element={editOption}/>}
-        </>
+        </div>
     )
 }
 
