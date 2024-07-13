@@ -45,7 +45,7 @@ const Mypasswords = () => {
     }
     
     return (
-        <div className='w-full h-auto lg:w-[70%] flex flex-col  text-white'>
+        <div className='w-full h-auto lg:w-[70%] flex flex-col  text-white items-center'>
         <h1 className='text-[20px] font-bold mb-5'>Welcome {userData?.name}!!</h1>
         <div className='bg-[#45454B] rounded-lg p-4 shadow-gray-500 shadow-md'>
             <table className="w-full mx-auto">
