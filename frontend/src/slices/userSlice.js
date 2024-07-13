@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const users_url = "http://localhost:3000/api/users"
+const users_url = "https://keyforge.onrender.com/api/users"
 
 const initialState = {
     userInfo: localStorage.getItem('userInfoKeyForge')
