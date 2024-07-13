@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import EditModal from './EditModal'
 
 const Mypasswords = () => {
-    const { userInfo, passwords } = useSelector(state => state.user)
+    const { userInfo, passwords, userData } = useSelector(state => state.user)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
@@ -46,6 +46,7 @@ const Mypasswords = () => {
     
     return (
         <>
+        <h1>{userData?.name}</h1>
         <div className='w-full h-auto lg:w-[70%] bg-[#45454B] rounded-lg flex flex-col p-4 shadow-gray-500 shadow-md text-white'>
             <table className="w-full mx-auto">
                 <thead className='border-b'>

@@ -69,8 +69,9 @@ export const userController = {
     getPasswords: async (req,res) => {
         try {
             const userId = getTokenData(req)
+            const userData = await User.findById(userId)
             const userPasswords = await Password.find({creatorId: userId})
-            res.status(200).send(userPasswords);
+            res.status(200).send({userPasswords,userData});
         } catch (error) {
             res.status(500).send({error: "Internal server error"})
             console.log(error.message);

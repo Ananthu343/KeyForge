@@ -7,7 +7,8 @@ const initialState = {
     userInfo: localStorage.getItem('userInfoKeyForge')
         ? JSON.parse(localStorage.getItem('userInfoKeyForge'))
         : null,
-    passwords: []
+    passwords: [],
+    userData:{},
 }
 
 export const loginUser = createAsyncThunk("user/login", async (data) => {
@@ -90,7 +91,8 @@ const authSlice = createSlice({
                 localStorage.removeItem('userInfoKeyForge');
             })
             .addCase(getPasswords.fulfilled, (state, action) => {
-                state.passwords = action.payload;
+                state.passwords = action.payload.userPasswords;
+                state.userData = action.payload.userData;
             })
             .addCase(savePassword.fulfilled, (state, action) => {
                 state.passwords.push(action.payload)
