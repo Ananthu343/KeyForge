@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import EditModal from './EditModal'
 
 const Mypasswords = () => {
-    const { userInfo, passwords } = useSelector(state => state.user)
+    const { userInfo, passwords, userData } = useSelector(state => state.user)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
