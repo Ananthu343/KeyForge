@@ -56,8 +56,8 @@ export const userController = {
             if (name && password) {
                 const userId = getTokenData(req)
                 const newPassword = new Password({name,password,creatorId: userId})
-                await newPassword.save()
-                res.status(200).send({message: "Password saved"})
+                const savedPassword = await newPassword.save()
+                res.status(200).send(savedPassword)
             } else {
                 res.status(401).send({ error: "Invalid input" });
             }
@@ -81,7 +81,7 @@ export const userController = {
             const userId = await getTokenData(req) 
             const passwordId = req.query.id;
             const passwordData = await Password.findById(passwordId);
-            if (passwordData.creatorId === userId) {
+            if (passwordData.creatorId == userId) {
                 await Password.findByIdAndDelete(passwordId)
                 res.status(200).send({message: "Password deleted"});
             } else {
@@ -96,8 +96,8 @@ export const userController = {
         try {
             const userId = getTokenData(req)
             const {name, password, passwordId} = req.body;
-            const passwordData = await Password.findById(id);
-            if (passwordData.creatorId === userId) {
+            const passwordData = await Password.findById(passwordId);
+            if (passwordData.creatorId == userId) {
                 const updatedData = await Password.findByIdAndUpdate(passwordId,{name,password})
                 res.status(200).send(updatedData);
             } else {

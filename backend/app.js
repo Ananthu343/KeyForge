@@ -11,7 +11,7 @@ const clientPath = process.env.CLIENT_BASE_PATH;
 const connectionString = process.env.CONNECTION_STRING;
 
 const corsOptions = {
-    origin: [clientPath, "http://localhost:5173/"],
+    origin: [clientPath, "http://localhost:5173"],
     credentials: true,
     exposedHeaders: ["set-cookie"],
   };

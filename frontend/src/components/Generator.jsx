@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import RangeSlider from "react-range-slider-input";
 import 'react-range-slider-input/dist/style.css';
+import { savePassword } from '../slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 const Generator = () => {
     const [password, setPassword] = useState("password")
+    const [name, setName] = useState("")
     const [length, setLength] = useState(8)
     const [status, setStatus] = useState("poor")
     const [upper, setUpper] = useState(true);
@@ -14,6 +18,8 @@ const Generator = () => {
     const upperCase = lowerCase.toUpperCase()
     const numbers = "0123456789";
     const symbols = "!@#$%^&*()-+";
+    const {userInfo} = useSelector(state=> state.user)
+    const dispacth = useDispatch()
 
     useEffect(() => {
         if (length <= 8) {
@@ -68,17 +74,44 @@ const Generator = () => {
         setLength(e.target.value.length)
     }
 
+    const handleSave = () =>{
+        if (userInfo) {
+            dispacth(savePassword({ name, password })).then((action) => {
+                if (action.meta.requestStatus === "rejected") {
+                    const errorMessage = "Something went wrong";
+                    toast.error(errorMessage);
+                }else{
+                    toast.success("Saved")
+                }
+            })
+        } else {
+            toast.error("You need to login")
+        }
+    }
+
+    
+    const copyPasswordToClipboard = (password) => {
+        navigator.clipboard.writeText(password).then(function () {
+            toast.success('Copied to clipboard');
+        }, function (err) {
+            console.error('Could not copy text: ', err);
+        });
+    };
+
     return (
-        <div className='w-[500px] h-[550px] lg:w-[400px] lg:h-[450px] bg-[#45454B] rounded-lg flex flex-col p-4 shadow-gray-500 shadow-md text-white'>
+        <div className='w-[500px]  lg:w-[400px] lg:h-auto bg-[#45454B] rounded-lg flex flex-col p-4 shadow-gray-500 shadow-md text-white'>
             <div className='flex p-2 justify-center w-full'>
                 <h1 className='font-semibold'>Password Generator</h1>
             </div>
             <div className='flex w-full justify-between items-center mt-5'>
                 <input onChange={handleInput} value={password} type="text" className='w-[90%] p-2 bg-black rounded border border-white' />
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer">
+                <svg onClick={()=> copyPasswordToClipboard(password)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
                 </svg>
             </div>
+            {userInfo && <div className='flex w-full justify-between items-center mt-5'>
+                <input onChange={(e)=>setName(e.target.value)} value={name} type="text" className='w-[90%] p-2 bg-black rounded border border-white' placeholder='Name for password'/>
+            </div>}
             <div className='w-full mt-4 text-sm flex flex-col '>
                 <p>Choose length ( {length ?? 0} letters )</p>
                 <div className='w-full justify-between mt-2 flex items-center'>
@@ -147,7 +180,7 @@ const Generator = () => {
             </div>
             <button onClick={generatePass} className='font-semibold bg-black p-3 mt-5 hover:text-green-500'>Generate</button>
             <div className='w-full mt-3 text-sm'>
-               <button>Save password</button>
+               <button onClick={handleSave}>Save password</button>
             </div>
         </div>
     )
